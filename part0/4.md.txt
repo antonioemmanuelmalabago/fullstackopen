@@ -1,0 +1,34 @@
+sequenceDiagram
+    participant browser
+    participant server
+    
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
+    activate server
+    server-->>browser: Redirect request
+    deactivate server
+
+    Note right of browser: The browser starts redirecting the location provided by the server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    activate server
+    server-->>browser: HTML file
+    deactivate server
+    
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->>browser: CSS file
+    deactivate server
+    
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    activate server
+    server-->>browser: JavaScript file
+    deactivate server
+    
+    Note right of browser: The browser starts executing the JavaScript code that fetches the JSON from the server
+    
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: [{ "content": "Test Selenium el dia 12 de Noviembre a las 8:10:1", "date": "2024-11-12T13:10:04.343Z" }, ... ]
+    deactivate server    
+
+    Note right of browser: The browser executes the callback function that renders the notes
