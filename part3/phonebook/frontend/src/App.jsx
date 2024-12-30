@@ -45,11 +45,16 @@ const App = () => {
           setPersons(
             persons.map((p) => (p.id !== person.id ? p : updatedPerson))
           )
-          notifyWith(`phon number of ${person.name} updated!`)
+          notifyWith(`Phone number of ${person.name} updated!`)
         })
-        .catch(() => {
-          notifyWith(`${person.name} has already been removed`, 'error')
-          setPersons(persons.filter((p) => p.id !== person.id))
+        .catch((error) => {
+          if (error === undefined) {
+            notifyWith(`${person.name} has already been removed`, 'error')
+            setPersons(persons.filter((p) => p.id !== person.id))
+            return
+          }
+
+          notifyWith(error.response.data.error, 'error')
         })
 
       cleanForm()
@@ -77,14 +82,15 @@ const App = () => {
 
         cleanForm()
       })
+      .catch((error) => notifyWith(error.response.data.error, 'error'))
   }
 
   const removePerson = (person) => {
-    const ok = window.confirm(`remove ${person.name} from phonebook?`)
+    const ok = window.confirm(`Remove ${person.name} from phonebook?`)
     if (ok) {
       personService.remove(person.id).then(() => {
         setPersons(persons.filter((p) => p.id !== person.id))
-        notifyWith(`number of ${person.name} deleted!`)
+        notifyWith(`Number of ${person.name} deleted!`)
       })
     }
   }
