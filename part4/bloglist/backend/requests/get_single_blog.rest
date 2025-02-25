@@ -1,0 +1,2 @@
+GET http://localhost:3003/api/blogs/67bdbbe790e0c8efb3a0be19 HTTP/1.1
+Content-Type: application/json
